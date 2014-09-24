@@ -4,8 +4,16 @@ class plex::server (
 
   $stagedir = "/tmp/staging"
 
-  if $::osfamily != 'RedHat' {
-    fail("Unsupported platform: abrader-${module_name} currently doesn't support ${::osfamily} or ${::operatingsystem}")
+  case $::osfamily {
+    'RedHat': {
+      $package_name = "${module_name}mediaserver-${version}.${::architecture}.rpm"
+    }
+    'Debian': {
+      $package_name = "${module_name}mediaserver_${version}_${::architecture}.deb"
+    }
+    default: {
+      fail("Unsupported platform: abrader-${module_name} currently doesn't support ${::osfamily} or ${::operatingsystem}")
+    }
   }
 
   class {'staging' :
@@ -14,15 +22,15 @@ class plex::server (
     group => 'root',
   }
 
-  staging::file { "${module_name}mediaserver-${version}.${::architecture}.rpm" :
-    source => "https://downloads.plex.tv/${module_name}-media-server/${version}/${module_name}mediaserver-${version}.${architecture}.rpm",
+  staging::file { $package_name :
+    source => "https://downloads.plex.tv/${module_name}-media-server/${version}/${package_name}",
   }
 
   package { "${module_name}mediaserver" :
     ensure   => $version,
-    source   => "${stagedir}/${module_name}/${module_name}mediaserver-${version}.${::architecture}.rpm", 
+    source   => "${stagedir}/${module_name}/${package_name}",
     provider => 'rpm',
-    require  => Staging::File["${module_name}mediaserver-${version}.${::architecture}.rpm"],
+    require  => Staging::File[$package_name],
   }
 
 }
