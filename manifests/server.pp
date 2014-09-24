@@ -7,9 +7,19 @@ class plex::server (
   case $::osfamily {
     'RedHat': {
       $package_name = "${module_name}mediaserver-${version}.${::architecture}.rpm"
+      $package_provider = 'rpm'
     }
     'Debian': {
       $package_name = "${module_name}mediaserver_${version}_${::architecture}.deb"
+      $package_provider = 'dpkg'
+
+      package { 'avahi-daemon' :
+        ensure => present,
+      }
+
+      package { 'avahi-utils' :
+        ensure => present,
+      }
     }
     default: {
       fail("Unsupported platform: abrader-${module_name} currently doesn't support ${::osfamily} or ${::operatingsystem}")
@@ -27,9 +37,9 @@ class plex::server (
   }
 
   package { "${module_name}mediaserver" :
-    ensure   => $version,
+    ensure   => present,
     source   => "${stagedir}/${module_name}/${package_name}",
-    provider => 'rpm',
+    provider => $package_provider,
     require  => Staging::File[$package_name],
   }
 
