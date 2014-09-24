@@ -91,6 +91,7 @@ This module has been tested on:
 
 * RedHat Enterprise Linux 5/6/7
 * CentOS 5/6/7
+* Debian 6/7
 
 Testing on other platforms has been light and cannot be guaranteed.
 

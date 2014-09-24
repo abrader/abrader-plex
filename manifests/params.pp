@@ -11,9 +11,9 @@ class plex::params {
       $server_pkg_prereqs = []
     }
     'Debian': {
-      $server_pkg_name = "${module_name}mediaserver_${version}_${::architecture}.deb"
-      $package_provider = 'dpkg'
-      $server_pkg_prereqs = [ 'libnss-mdns', 'avahi-daemon', 'avahi-utils', 'libavahi-common3', 'libavahi-core7', 'libdaemon0', 'dbus', 'libdbus-1-3', 'libsystemd-login0' ]
+       $server_pkg_name = "${module_name}mediaserver_${version}_${::architecture}.deb"
+       $package_provider = 'dpkg'
+       $server_pkg_prereqs = [ 'avahi-daemon', 'avahi-utils' ]
     }
     default: {
       fail("Unsupported platform: abrader-${module_name} currently doesn't support ${::osfamily} or ${::operatingsystem}")
