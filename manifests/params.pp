@@ -6,14 +6,14 @@ class plex::params {
 
   case $::osfamily {
     'RedHat': {
-      $package_name = "${module_name}mediaserver-${version}.${::architecture}.rpm"
+      $server_pkg_name = "${module_name}mediaserver-${version}.${::architecture}.rpm"
       $package_provider = 'rpm'
-      $package_prereqs = []
+      $server_pkg_prereqs = []
     }
     'Debian': {
-      $package_name = "${module_name}mediaserver_${version}_${::architecture}.deb"
+      $server_pkg_name = "${module_name}mediaserver_${version}_${::architecture}.deb"
       $package_provider = 'dpkg'
-      $package_prereqs = [ 'libnss-mdns', 'avahi-daemon', 'avahi-utils', 'libavahi-common3', 'libavahi-core7', 'libdaemon0', 'dbus', 'libdbus-1-3', 'libsystemd-login0' ]
+      $server_pkg_prereqs = [ 'libnss-mdns', 'avahi-daemon', 'avahi-utils', 'libavahi-common3', 'libavahi-core7', 'libdaemon0', 'dbus', 'libdbus-1-3', 'libsystemd-login0' ]
     }
     default: {
       fail("Unsupported platform: abrader-${module_name} currently doesn't support ${::osfamily} or ${::operatingsystem}")
