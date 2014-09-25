@@ -69,11 +69,11 @@ TODO
 
 ####plex::server
 
-#####`package_ensure`
+#####`version`
 
 What to set the package to.  Can be 'present', 'absent', or 'x.y.z'.
 
-####plexmediaserver::client
+####plex::client
 
 TODO
 
@@ -89,9 +89,21 @@ TODO
 
 This module has been tested on:
 
-* RedHat Enterprise Linux 5/6/7
-* CentOS 5/6/7
+####Server
+
+##### Completed
+
+* RedHat Enterprise Linux 7
+* CentOS 7
 * Debian 6/7
+
+#####In Progress
+
+* Ubuntu 10/12
+
+####Client
+
+* TODO
 
 Testing on other platforms has been light and cannot be guaranteed.
 

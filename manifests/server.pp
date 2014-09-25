@@ -3,28 +3,38 @@ class plex::server (
   $stage_dir = $plex::params::stage_dir,
   $server_pkg_name = $plex::params::server_pkg_name,
   $server_pkg_prereqs = $plex::params::server_pkg_prereqs,
+  $server_svc_name = $plex::params::server_svc_name,
   $package_provider = $plex::params::package_provider,
 ) inherits plex::params {
 
-  class {'staging' :
+  notice("Server Package URL: ${server_pkg_url}/${server_pkg_name}")
+
+  class { 'staging' :
     path  => $stage_dir,
     owner => 'root',
     group => 'root',
-  }
-
-  staging::file { $server_pkg_name :
-    source => "https://downloads.plex.tv/${module_name}-media-server/${version}/${server_pkg_name}",
   }
 
   package { $server_pkg_prereqs :
     ensure => present,
   }
 
-  package { "${module_name}mediaserver" :
+  staging::file { $server_pkg_name :
+    source => "${server_pkg_url}/${server_pkg_name}",
+    require => Package[$server_pkg_prereqs],
+  }
+
+  package { $server_pkg_name :
     ensure   => present,
     source   => "${stage_dir}/${module_name}/${server_pkg_name}",
     provider => $package_provider,
-    require  => [ Staging::File[$server_pkg_name], Package[$server_pkg_prereqs] ],
+    require  => Staging::File[$server_pkg_name],
+  }
+  
+  service { $server_svc_name :
+    ensure => running,
+    enable => true,
+    require => Package[$server_pkg_name],
   }
 
 }
