@@ -3,6 +3,7 @@ class plex::server (
   $stage_dir = $plex::params::stage_dir,
   $server_pkg_name = $plex::params::server_pkg_name,
   $server_pkg_prereqs = $plex::params::server_pkg_prereqs,
+  $server_pkg_url = $plex::params::server_pkg_url,
   $server_svc_name = $plex::params::server_svc_name,
   $package_provider = $plex::params::package_provider,
 ) inherits plex::params {
@@ -30,7 +31,7 @@ class plex::server (
     provider => $package_provider,
     require  => Staging::File[$server_pkg_name],
   }
-  
+
   service { $server_svc_name :
     ensure => running,
     enable => true,
