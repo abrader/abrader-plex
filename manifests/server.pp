@@ -8,8 +8,6 @@ class plex::server (
   $package_provider = $plex::params::package_provider,
 ) inherits plex::params {
 
-  notice("Server Package URL: ${server_pkg_url}/${server_pkg_name}")
-
   notify { 'plex_server_url':
     message => "Server Package URL: ${server_pkg_url}/${server_pkg_name}",
   }
