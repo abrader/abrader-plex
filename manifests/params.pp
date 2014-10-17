@@ -3,7 +3,7 @@ class plex::params (
   $stage_dir = "/tmp/staging",
 ) {
   $server_pkg_url = "https://downloads.plex.tv/plex-media-server/${version}"
-  
+
   case $::osfamily {
     'RedHat': {
       $server_pkg_name = "plexmediaserver-${version}.${::architecture}.rpm"
