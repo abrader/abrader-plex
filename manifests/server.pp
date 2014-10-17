@@ -8,7 +8,9 @@ class plex::server (
   $package_provider = $plex::params::package_provider,
 ) inherits plex::params {
 
-  notice("Server Package URL: ${server_pkg_url}/${server_pkg_name}")
+  notify { 'plex_server_url':
+    message => "Server Package URL: ${server_pkg_url}/${server_pkg_name}",
+  }
 
   class { 'staging' :
     path  => $stage_dir,
@@ -22,7 +24,7 @@ class plex::server (
 
   staging::file { $server_pkg_name :
     source => "${server_pkg_url}/${server_pkg_name}",
-    require => Package[$server_pkg_prereqs],
+    require => [ Notify['plex_server_url'],Package[$server_pkg_prereqs] ],
   }
 
   package { $server_pkg_name :
