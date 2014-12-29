@@ -1,5 +1,5 @@
 class plex::params (
-  $version = '0.9.9.14.531-7eef8c6',
+  $version = '0.9.11.5.774-760cb52',
   $stage_dir = "/tmp/staging",
 ) {
   $server_pkg_url = "https://downloads.plex.tv/plex-media-server/${version}"
